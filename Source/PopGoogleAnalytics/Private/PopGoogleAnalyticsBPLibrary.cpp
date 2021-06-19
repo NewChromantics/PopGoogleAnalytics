@@ -71,8 +71,7 @@ void GoogleAnalyticsRequest_t::OnRequestCompleted(FHttpRequestPtr Request, FHttp
 {
 	auto ResponseCode = Response ? Response->GetResponseCode() : 0;
 	FString ResponseBody = Response ? Response->GetContentAsString() : "";
-	//if ( bWasSuccessful )
-	if ( ResponseCode == 200 )
+	if ( bWasSuccessful )
 	{
 		UE_LOG( LogTemp, Log, TEXT( "GoogleAnalytics report completed. (%d), body:%s"), ResponseCode, *ResponseBody );
 		return;
