@@ -28,7 +28,9 @@ TArray<TSharedRef<GoogleAnalyticsRequest_t>> gRequests;
 //	ids and keys from google analytics
 //	see live feedback in the debug view
 //	https://analytics.google.com/analytics/web/#/m/p275755571/debugview/overview
+//	mmeasurement id from "Measurement Protocol API secrets"
 const FString MeasurementId = "G-H854WHM16Z";
+
 //const FString StreamId = "2652615313";
 const FString ApiSecret = "_qzH82vMRJ2jU2WoGEBqiQ";
 const FString MeasurementProtocolUrl = "https://www.google-analytics.com/mp/collect";
@@ -44,7 +46,7 @@ GoogleAnalyticsRequest_t::GoogleAnalyticsRequest_t(FString JsonString,bool Valid
 	mRequest->SetVerb("POST");
 	mRequest->SetHeader("Content-Type", "application/json");
 	FString Url = ValidationRequest ? ValidateMeasurementProtocolUrl : MeasurementProtocolUrl;
-	mRequest->SetURL(*FString::Printf( TEXT("%s?measurement_id=%s&api_secret=%s"), *Url, *ApiSecret, *MeasurementId ) );
+	mRequest->SetURL(*FString::Printf( TEXT("%s?api_secret=%s%measurement_id=%s"), *Url, *ApiSecret, *MeasurementId ) );
 	
 	//	required json params
 	//	.client_id=string	https://developers.google.com/gtagjs/reference/api#get_mp_example
@@ -92,17 +94,16 @@ UPopGoogleAnalyticsBPLibrary::UPopGoogleAnalyticsBPLibrary(const FObjectInitiali
 
 }
 
-void UPopGoogleAnalyticsBPLibrary::PopGoogleAnalyticsPostEvent(FString Json)
+void UPopGoogleAnalyticsBPLibrary::PopGoogleAnalyticsPostEvent(FString Json,bool Validate)
 {
 	UE_LOG( LogTemp, Log, TEXT( "PopGoogleAnalyticsPostEvent" ) );
 	try
 	{
 		//	.client_id=string	https://developers.google.com/gtagjs/reference/api#get_mp_example
 		//	.events=[]
-		FString TestJson = "{ \"client_id\":\"UEClient.Test\", \"events\":[{\"name\":\"TestEvent1\"}] }";
-	
-		bool Validate = true;
-		TSharedRef<GoogleAnalyticsRequest_t> NewRequest( new GoogleAnalyticsRequest_t(TestJson,Validate) );
+		//FString TestJson = "{ \"client_id\":\"UEClientTest\", \"events\":[{\"name\":\"TestEvent1\"}] }";
+
+		TSharedRef<GoogleAnalyticsRequest_t> NewRequest( new GoogleAnalyticsRequest_t(Json,Validate) );
 		gRequests.Add(NewRequest);
 	}
 	catch(std::exception& e)

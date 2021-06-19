@@ -29,5 +29,5 @@ class UPopGoogleAnalyticsBPLibrary : public UBlueprintFunctionLibrary
 
 	//	gr: json can be FJsonObject?
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Post JSON to google analytics", Keywords = "PopGoogleAnalytics sample test testing"), Category = "PopGoogleAnalyticsTesting")
-	static void PopGoogleAnalyticsPostEvent(FString Json);
+	static void PopGoogleAnalyticsPostEvent(FString Json,bool Validate);
 };
