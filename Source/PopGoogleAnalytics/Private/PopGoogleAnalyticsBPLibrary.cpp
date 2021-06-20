@@ -37,6 +37,10 @@ const FString MeasurementProtocolUrl = "https://www.google-analytics.com/mp/coll
 //	this is a validation url which sends back debug if the response is malformed, the normal url doesn't report errors
 const FString ValidateMeasurementProtocolUrl = "https://www.google-analytics.com/debug/mp/collect";
 
+//	Test app
+//	https://ga-dev-tools.web.app/ga4/event-builder/
+//	"validationBehavior":"ENFORCE_RECOMMENDATIONS" is sent with debug here
+
 GoogleAnalyticsRequest_t::GoogleAnalyticsRequest_t(FString JsonString,bool ValidationRequest)
 {
 	auto Request = FHttpModule::Get().CreateRequest();
@@ -46,7 +50,7 @@ GoogleAnalyticsRequest_t::GoogleAnalyticsRequest_t(FString JsonString,bool Valid
 	mRequest->SetVerb("POST");
 	mRequest->SetHeader("Content-Type", "application/json");
 	FString Url = ValidationRequest ? ValidateMeasurementProtocolUrl : MeasurementProtocolUrl;
-	mRequest->SetURL(*FString::Printf( TEXT("%s?api_secret=%s%measurement_id=%s"), *Url, *ApiSecret, *MeasurementId ) );
+	mRequest->SetURL(*FString::Printf( TEXT("%s?measurement_id=%s&api_secret=%s"), *Url, *MeasurementId, *ApiSecret ) );
 	
 	//	required json params
 	//	.client_id=string	https://developers.google.com/gtagjs/reference/api#get_mp_example
