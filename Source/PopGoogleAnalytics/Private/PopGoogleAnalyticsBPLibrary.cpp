@@ -100,20 +100,13 @@ UPopGoogleAnalyticsBPLibrary::UPopGoogleAnalyticsBPLibrary(const FObjectInitiali
 void UPopGoogleAnalyticsBPLibrary::PopGoogleAnalyticsPostEvent(FString Json,bool Validate)
 {
 	UE_LOG( LogTemp, Log, TEXT( "PopGoogleAnalyticsPostEvent" ) );
-	try
-	{
-		//	.client_id=string	https://developers.google.com/gtagjs/reference/api#get_mp_example
-		//	.events=[]
-		//FString TestJson = "{ \"client_id\":\"UEClientTest\", \"events\":[{\"name\":\"TestEvent1\"}] }";
 
-		TSharedRef<GoogleAnalyticsRequest_t> NewRequest( new GoogleAnalyticsRequest_t(Json,Validate) );
-		gRequests.Add(NewRequest);
-	}
-	catch(std::exception& e)
-	{
-		FString ErrorString = FString::Printf( TEXT( "PopGoogleAnalyticsPostEvent exception %s" ), e.what() );
-		UE_LOG( LogTemp, Error, TEXT( "%s" ), *ErrorString );
-	}
+	//	.client_id=string	https://developers.google.com/gtagjs/reference/api#get_mp_example
+	//	.events=[]
+	//FString TestJson = "{ \"client_id\":\"UEClientTest\", \"events\":[{\"name\":\"TestEvent1\"}] }";
+
+	TSharedRef<GoogleAnalyticsRequest_t> NewRequest( new GoogleAnalyticsRequest_t(Json,Validate) );
+	gRequests.Add(NewRequest);
 }
 
 #undef LOCTEXT_NAMESPACE
